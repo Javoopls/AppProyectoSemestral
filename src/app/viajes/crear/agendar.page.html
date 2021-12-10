@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">TeLlevoApp</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-col size="12" size-sm="8" offset-sm="2">
+          <ion-list>
+            <ion-item *ngFor="let pasajero of cargarPasajeros.slice(1)" [routerLink]="['/','viajes', 'tabs', 'crear', pasajero.idUsuario]" detail>
+              <ion-thumbnail slot="start">
+                <!-- <div mat-card-avatar class="avatar-persona"></div> -->
+                <ion-img [src]="pasajero.viajeroImg"></ion-img>
+              </ion-thumbnail>
+              <ion-label>
+                <!-- <mat-card-title> {{pasajero.lugarViaje }} </mat-card-title> -->
+                <!-- <mat-card-subtitle>Método de Pago: {{pasajero.metodoPago}} </mat-card-subtitle> -->
+                <h1> {{pasajero.lugarViaje }} </h1>
+                <p>Método de Pago: {{pasajero.metodoPago}} </p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
