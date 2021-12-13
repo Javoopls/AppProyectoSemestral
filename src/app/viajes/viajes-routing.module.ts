@@ -34,17 +34,17 @@ const routes: Routes = [
               import('./crear/agendar.module').then((m) => m.AgendarPageModule),
           },
           {
-            path: ':pasajeroID',
-            loadChildren: () =>
-              import('./crear/detalle-pasajero/detalle-pasajero.module').then(
-                (m) => m.DetallePasajeroPageModule
-              ),
-          },
-          {
             path: 'nuevo',
             loadChildren: () =>
               import('./crear/crear-viaje/crear-viaje.module').then(
                 (m) => m.CrearViajePageModule
+              ),
+          },
+          {
+            path: ':pasajeroID',
+            loadChildren: () =>
+              import('./crear/detalle-pasajero/detalle-pasajero.module').then(
+                (m) => m.DetallePasajeroPageModule
               ),
           },
         ],

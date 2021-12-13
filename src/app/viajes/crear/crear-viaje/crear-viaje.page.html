@@ -8,5 +8,39 @@
 </ion-header>
 
 <ion-content>
-<ion-button class="margin" color="primary"></ion-button>
+  <form [formGroup]="form">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3" class="ion-padding">
+          <ion-card>
+            <ion-card-content>
+              <ion-list>
+                <ion-item>
+                  <ion-label position="floating">Lugar Viaje</ion-label>
+                  <ion-input type="text" formControlName="lugar"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label position="floating">Valor del Viaje por Persona</ion-label>
+                  <ion-input type="number" formControlName="valor"></ion-input>
+                </ion-item>
+                <ion-row *ngIf="!form.get('valor').valid && form.get('valor').touched">
+                  <ion-col>
+                    <p>Valor debe ser entre 500 y 2000</p>
+                  </ion-col>
+                </ion-row>
+                <ion-item>
+                  <ion-label position="floating">Hora de salida</ion-label>
+                  <ion-datetime displayFormat="HH:mm" min="08:00" max="23:15" formControlName="horaSalida"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                  <ion-button color="primary" type="submit" expand="block" (click)="crearViaje()" [disabled]="!form.valid">Agendar Nuevo Viaje
+                  </ion-button>
+                </ion-item>
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
 </ion-content>

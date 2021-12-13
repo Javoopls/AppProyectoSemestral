@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-auth',
@@ -10,6 +11,10 @@ export class AuthPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  valFormulario(form: NgForm){
+    console.log(form);
   }
 
 }
