@@ -86,4 +86,8 @@ export class ViajesService {
   }
 
   constructor() {}
+
+  getViaje(viajeId: string) {
+    return {...this._viajes.find(v => v.viajeId === viajeId)};
+  }
 }

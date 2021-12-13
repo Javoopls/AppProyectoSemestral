@@ -1,6 +1,6 @@
 export class Viaje {
   constructor(
-    public id: string,
+    public viajeId: string,
     public costo: number,
     public lugarViaje: string,
     public horaSalida: Date,

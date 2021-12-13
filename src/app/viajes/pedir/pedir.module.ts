@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { PedirPageRoutingModule } from './pedir-routing.module';
 import { PedirPage } from './pedir.page';
 import {MatCardModule} from '@angular/material/card';
+import { PedirViajeComponent } from './pedir-viaje/pedir-viaje.component';
 
 
 @NgModule({
@@ -16,6 +17,6 @@ import {MatCardModule} from '@angular/material/card';
     PedirPageRoutingModule,
     MatCardModule
   ],
-  declarations: [PedirPage]
+  declarations: [PedirPage, PedirViajeComponent]
 })
 export class PedirPageModule {}

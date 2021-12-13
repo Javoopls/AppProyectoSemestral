@@ -4,7 +4,7 @@ export class Pasajero {
     public nombre: string,
     public apellido: string,
     public lugarViaje: string,
-    public viajeroImg: string,
+    public pasajeroImg: string,
     public metodoPago: string
   ) {}
 };

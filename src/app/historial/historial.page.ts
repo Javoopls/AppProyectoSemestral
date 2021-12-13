@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { IonItemSliding } from '@ionic/angular';
+import { Historial } from './historial.model';
+import { HistorialService } from './historial.service';
 
 @Component({
   selector: 'app-historial',
@@ -6,10 +9,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./historial.page.scss'],
 })
 export class HistorialPage implements OnInit {
+  cargarHistorial: Historial[];
 
-  constructor() { }
+  constructor(private historialService: HistorialService) { }
 
   ngOnInit() {
+    this.cargarHistorial = this.historialService.historial;
+  }
+
+  borrarHistorial(viajeId: string, slidingEl: IonItemSliding){
+    slidingEl.close();
+    //borrar historial
   }
 
 }
