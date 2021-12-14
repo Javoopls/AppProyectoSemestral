@@ -14,7 +14,7 @@ export class HistorialPage implements OnInit {
   constructor(private historialService: HistorialService) { }
 
   ngOnInit() {
-    this.cargarHistorial = this.historialService.historial;
+    // this.cargarHistorial = this.historialService.historial;
   }
 
   borrarHistorial(viajeId: string, slidingEl: IonItemSliding){

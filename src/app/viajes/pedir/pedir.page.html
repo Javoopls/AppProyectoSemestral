@@ -14,11 +14,12 @@
         <mat-card>
           <mat-card-header>
             <div mat-card-avatar class="avatar-auto"></div>
-            <mat-card-title> {{cargarViajes[0]?.lugarViaje}} </mat-card-title>
-            <mat-card-subtitle>Costo por persona: {{cargarViajes[0]?.costo | currency}} </mat-card-subtitle>
+            <mat-card-title> {{viajesRelevantes[0].lugarViaje}} </mat-card-title>
+            <mat-card-subtitle>Costo por persona: {{viajesRelevantes[0].costo | currency}} </mat-card-subtitle>
+            <mat-card-subtitle>Hora de Salida {{viajesRelevantes[0].horaSalida | date: "HH:mm"}} </mat-card-subtitle>
           </mat-card-header>
           <div class="ion-text-right">
-            <ion-button fill="clear" color="primary" [routerLink]="['/','viajes', 'tabs', 'pedir', cargarViajes[0]?.viajeId]">
+            <ion-button fill="clear" color="primary" [routerLink]="['/','viajes', 'tabs', 'pedir', viajesRelevantes[0].id]">
               Pedir Viaje
             </ion-button>
           </div>
@@ -28,13 +29,14 @@
     <ion-row>
       <ion-col size="12" size-sm="8" offset-sm="2">
         <ion-list>
-          <ion-item *ngFor="let viaje of cargarViajes?.slice(1)" [routerLink]="['/','viajes', 'tabs', 'pedir', viaje?.viajeId]" detail>
+          <ion-item *ngFor="let viaje of viajesRelevantes.slice(1)" [routerLink]="['/','viajes', 'tabs', 'pedir', viaje.id]" detail>
             <ion-thumbnail slot="start">
               <div mat-card-avatar class="avatar-auto"></div>
             </ion-thumbnail>
             <ion-label>
-              <mat-card-title> {{viaje?.lugarViaje}} </mat-card-title>
-              <mat-card-subtitle>Costo por persona: {{viaje?.costo| currency}} </mat-card-subtitle>
+              <mat-card-title> {{viaje.lugarViaje}} </mat-card-title>
+              <mat-card-subtitle>Costo por persona: {{viaje.costo| currency}} </mat-card-subtitle>
+              <mat-card-subtitle>Hora de Salida {{viaje.horaSalida | date: "HH:mm"}} </mat-card-subtitle>
             </ion-label>
           </ion-item>
         </ion-list>

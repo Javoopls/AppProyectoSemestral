@@ -17,12 +17,12 @@ const routes: Routes = [
               import('./pedir/pedir.module').then((m) => m.PedirPageModule),
           },
           {
-            path: ':viajeID',
+            path: ':viajeId',
             loadChildren: () =>
               import('./pedir/detalle-viaje/detalle-viaje.module').then(
                 (m) => m.DetalleViajePageModule
               ),
-          },
+          }
         ],
       },
       {
@@ -41,7 +41,7 @@ const routes: Routes = [
               ),
           },
           {
-            path: ':pasajeroID',
+            path: ':pasajeroId',
             loadChildren: () =>
               import('./crear/detalle-pasajero/detalle-pasajero.module').then(
                 (m) => m.DetallePasajeroPageModule

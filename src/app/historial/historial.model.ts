@@ -6,5 +6,6 @@ export class Historial {
     public valorViaje: number,
     public nombreConductor: string,
     public patenteVehículo: string,
+    public userId: string
   ) {}
 }

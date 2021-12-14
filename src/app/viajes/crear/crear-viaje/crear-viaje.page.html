@@ -21,9 +21,9 @@
                 </ion-item>
                 <ion-item>
                   <ion-label position="floating">Valor del Viaje por Persona</ion-label>
-                  <ion-input type="number" formControlName="valor"></ion-input>
+                  <ion-input type="number" formControlName="costo"></ion-input>
                 </ion-item>
-                <ion-row *ngIf="!form.get('valor').valid && form.get('valor').touched">
+                <ion-row *ngIf="!form.get('costo').valid && form.get('costo').touched">
                   <ion-col>
                     <p>Valor debe ser entre 500 y 2000</p>
                   </ion-col>

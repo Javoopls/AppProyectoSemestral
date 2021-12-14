@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActionSheetController, ModalController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Viaje } from '../viaje.model';
 import { ViajesService } from '../viajes.service';
 import { PedirViajeComponent } from './pedir-viaje/pedir-viaje.component';
@@ -9,18 +11,24 @@ import { PedirViajeComponent } from './pedir-viaje/pedir-viaje.component';
   templateUrl: './pedir.page.html',
   styleUrls: ['./pedir.page.scss'],
 })
-export class PedirPage implements OnInit {
+export class PedirPage implements OnInit, OnDestroy {
   cargarViajes: Viaje[];
   viaje: Viaje;
+  viajesRelevantes: Viaje[];
+  private viajesSub: Subscription;
 
   constructor(
     private viajesServices: ViajesService,
     private modalCtrl: ModalController,
-    private actionSheetCtrl: ActionSheetController
+    private actionSheetCtrl: ActionSheetController,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
-    this.cargarViajes = this.viajesServices.viajes;
+    this.viajesSub = this.viajesServices.viajes.subscribe(viajes => {
+      this.cargarViajes = viajes;
+      this.viajesRelevantes = this.cargarViajes;
+    });
   }
 
   pedirViaje() {
@@ -60,5 +68,18 @@ export class PedirPage implements OnInit {
           console.log('Viaje Solicitado');
         }
       });
+  }
+
+  filtroViajes(){
+    this.viajesRelevantes = this.cargarViajes.filter(
+      viaje => viaje.idUsuario !== this.authService.userId
+    );
+    this.cargarViajes = this.viajesRelevantes.slice(1);
+  }
+
+  ngOnDestroy() {
+      if (this.viajesSub) {
+        this.viajesSub.unsubscribe();
+      }
   }
 }

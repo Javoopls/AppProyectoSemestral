@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content>
-  <form #f="ngForm" (ngSubmit)="valFormulario()">
+  <form [formGroup]="form">
     <ion-grid>
       <ion-row>
         <ion-col size-sm="6" offset-sm="3" class="ion-padding">
@@ -24,15 +24,15 @@
                 <ion-col size-sm="6" offset-sm="3">
                   <ion-item>
                     <ion-label position="floating">Selecciona Método Pago</ion-label>
-                    <ion-select [ngModel]="'1'" name="metodoPago">
-                      <ion-select-option value="1">Débito</ion-select-option>
-                      <ion-select-option value="2">Crédito</ion-select-option>
-                      <ion-select-option value="3">Transferencia</ion-select-option>
+                    <ion-select [ngModel]="'Débito'" name="metodoPago" formControlName="metodoPago">
+                      <ion-select-option value="Débito">Débito</ion-select-option>
+                      <ion-select-option value="Crédito">Crédito</ion-select-option>
+                      <ion-select-option value="Transferencia">Transferencia</ion-select-option>
                     </ion-select>
                   </ion-item>
                 </ion-col>
               </ion-row>
-              <button mat-raised-button color="primary" type="submit" [disabled]="!f.valid">Buscar Viaje!</button>
+              <button mat-raised-button color="primary" type="submit" (click)="pedirViaje()" [disabled]="!form.valid">Buscar Viaje!</button>
             </ion-card-content>
           </ion-card>
         </ion-col>

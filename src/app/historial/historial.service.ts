@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { Historial } from './historial.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HistorialService {
-  private _historial: Historial[] = [
-    {
-      idViaje: 'V1',
-      lugarViaje: 'Santa Julia',
-      fechaViaje: new Date ('2021-12-08'),
-      valorViaje: 550,
-      nombreConductor: 'Pablo Martinez',
-      patenteVehículo: 'BZ-54-43'
-    }
-  ];
+  private _historial = new BehaviorSubject<Historial[]>([]);
 
   get historial(){
-    return [...this._historial];
+    return this._historial.asObservable();
   }
 
   constructor() { }
+
+  anadirHistorial(viajeId: string, lugarViaje: string, metodoPago: string){
+
+  }
+
+  eliminarHistorial(){
+
+  }
 }

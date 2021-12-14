@@ -3,10 +3,22 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/viajes/tabs/pedir"></ion-back-button>
     </ion-buttons>
-    <ion-title> {{ viaje?.lugarViaje }} </ion-title>
+    <ion-title> TeLlevoApp </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-button color="primary" class="ion-margin" (click)="viajePedido()">Pedir Viaje!</ion-button>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-sm="6" offset-sm="3" class="ion-text-center">
+        <ion-img [src]="viaje.autoImg" class="ion-padding"></ion-img>
+        <h1> Lugar del Viaje: {{ viaje.lugarViaje }} </h1>
+        <h2> Valor del Viaje: {{ viaje.costo | currency:'CLP' }} </h2>
+        <h2> Hora de Salida: {{ viaje.horaSalida | date: "HH:mm"}} </h2>
+        <h3> Nombre del Conductor: {{ viaje.nombreConductor }} </h3>
+        <h3> Patente: {{ viaje.patenteVehiculo }} </h3>
+        <ion-button color="primary" class="ion-margin" (click)="viajePedido()">Pedir Viaje!</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
