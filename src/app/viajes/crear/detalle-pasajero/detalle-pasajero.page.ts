@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Pasajero } from '../../pasajero.model';
 import { ViajesService } from '../../viajes.service';
@@ -12,24 +12,45 @@ import { ViajesService } from '../../viajes.service';
 })
 export class DetallePasajeroPage implements OnInit, OnDestroy {
   pasajero: Pasajero;
+  isLoading = false;
   private pasajeroSub: Subscription;
 
   constructor(
     private navCtrl: NavController,
     private viajesService: ViajesService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private alertCtrl: AlertController,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
       if (!paramMap.has('pasajeroId')) {
         this.navCtrl.navigateBack('/viajes/tabs/crear');
-        console.log(paramMap);
+        return;
       }
+      this.isLoading = true;
       this.pasajeroSub = this.viajesService
         .getPasajero(paramMap.get('pasajeroId'))
         .subscribe(pasajero => {
           this.pasajero = pasajero;
+          this.isLoading = false;
+        },
+        (error) => {
+          this.alertCtrl
+            .create({
+              header: 'Un error ha ocurrido!',
+              message: 'No se pudo cargar el pasajero',
+              buttons: [
+                {
+                  text: 'Ok',
+                  handler: () => {
+                    this.router.navigate(['/viajes/tabs/crear']);
+                  },
+                },
+              ],
+            })
+            .then((alertEl) => alertEl.present());
         });
     });
   }

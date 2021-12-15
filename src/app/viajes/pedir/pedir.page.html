@@ -11,25 +11,29 @@
   <ion-grid>
     <ion-row>
       <ion-col size="12" size-sm="8" offset-sm="2">
-        <mat-card>
-          <mat-card-header>
-            <div mat-card-avatar class="avatar-auto"></div>
-            <mat-card-title> {{viajesRelevantes[0].lugarViaje}} </mat-card-title>
-            <mat-card-subtitle>Costo por persona: {{viajesRelevantes[0].costo | currency}} </mat-card-subtitle>
-            <mat-card-subtitle>Hora de Salida {{viajesRelevantes[0].horaSalida | date: "HH:mm"}} </mat-card-subtitle>
-          </mat-card-header>
-          <div class="ion-text-right">
-            <ion-button fill="clear" color="primary" [routerLink]="['/','viajes', 'tabs', 'pedir', viajesRelevantes[0].id]">
-              Pedir Viaje
-            </ion-button>
-          </div>
-        </mat-card>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="12" size-sm="8" offset-sm="2">
-        <ion-list>
-          <ion-item *ngFor="let viaje of viajesRelevantes.slice(1)" [routerLink]="['/','viajes', 'tabs', 'pedir', viaje.id]" detail>
+        <div *ngIf="isLoading" class="ion-text-center">
+          <ion-spinner color="primary"></ion-spinner>
+        </div>
+        <div class="ion-text-center" *ngIf="!isLoading && cargarViajes.length <= 0">
+          <p>No se han encontrado viajes, solicita uno!</p>
+        </div>
+        <ion-list *ngIf="!isLoading && cargarViajes.length > 0">
+          <mat-card>
+            <mat-card-header>
+              <div mat-card-avatar class="avatar-auto"></div>
+              <mat-card-title> {{cargarViajes[0].lugarViaje}} </mat-card-title>
+              <mat-card-subtitle>Costo por persona: {{cargarViajes[0].costo | currency}} </mat-card-subtitle>
+              <mat-card-subtitle>Hora de Salida {{cargarViajes[0].horaSalida | date: "HH:mm"}} </mat-card-subtitle>
+            </mat-card-header>
+            <div class="ion-text-right">
+              <ion-button fill="clear" color="primary"
+                [routerLink]="['/','viajes', 'tabs', 'pedir', cargarViajes[0].id]">
+                Pedir Viaje
+              </ion-button>
+            </div>
+          </mat-card>
+          <ion-item *ngFor="let viaje of cargarViajes.slice(1)"
+            [routerLink]="['/','viajes', 'tabs', 'pedir', viaje.id]" detail>
             <ion-thumbnail slot="start">
               <div mat-card-avatar class="avatar-auto"></div>
             </ion-thumbnail>

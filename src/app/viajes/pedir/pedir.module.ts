@@ -9,6 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { PedirViajeComponent } from './pedir-viaje/pedir-viaje.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { MatButtonModule } from '@angular/material/button';
     PedirPageRoutingModule,
     MatCardModule,
     MatRadioModule,
-    MatButtonModule
+    MatButtonModule,
+    SharedModule
   ],
   declarations: [PedirPage, PedirViajeComponent]
 })

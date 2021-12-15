@@ -5,7 +5,8 @@ const routes: Routes = [
   { path: '', redirectTo: 'viajes', pathMatch: 'full' },
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then( m => m.AuthPageModule) },
   { path: 'viajes', loadChildren: () => import('./viajes/viajes.module').then( m => m.ViajesPageModule) },
-  { path: 'historial', loadChildren: () => import('./historial/historial.module').then( m => m.HistorialPageModule) }
+  { path: 'historial', loadChildren: () => import('./historial/historial.module').then( m => m.HistorialPageModule) },
+  { path: 'perfil', loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule) }
 ];
 
 @NgModule({

@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActionSheetController, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/auth/auth.service';
 import { Viaje } from '../viaje.model';
 import { ViajesService } from '../viajes.service';
 import { PedirViajeComponent } from './pedir-viaje/pedir-viaje.component';
@@ -15,19 +14,25 @@ export class PedirPage implements OnInit, OnDestroy {
   cargarViajes: Viaje[];
   viaje: Viaje;
   viajesRelevantes: Viaje[];
+  isLoading = false;
   private viajesSub: Subscription;
 
   constructor(
     private viajesServices: ViajesService,
     private modalCtrl: ModalController,
     private actionSheetCtrl: ActionSheetController,
-    private authService: AuthService
   ) {}
 
   ngOnInit() {
     this.viajesSub = this.viajesServices.viajes.subscribe(viajes => {
       this.cargarViajes = viajes;
-      this.viajesRelevantes = this.cargarViajes;
+    });
+  }
+
+  ionViewWillEnter() {
+    this.isLoading = true;
+    this.viajesServices.fetchViajes().subscribe(() => {
+      this.isLoading = false;
     });
   }
 
@@ -70,12 +75,12 @@ export class PedirPage implements OnInit, OnDestroy {
       });
   }
 
-  filtroViajes(){
-    this.viajesRelevantes = this.cargarViajes.filter(
-      viaje => viaje.idUsuario !== this.authService.userId
-    );
-    this.cargarViajes = this.viajesRelevantes.slice(1);
-  }
+  // filtroViajes(){
+  //   this.viajesRelevantes = this.cargarViajes.filter(
+  //     viaje => viaje.idUsuario !== this.authService.userId
+  //   );
+  //   this.cargarViajes = this.viajesRelevantes.slice(1);
+  // }
 
   ngOnDestroy() {
       if (this.viajesSub) {

@@ -11,6 +11,7 @@ import { ViajesService } from '../viajes.service';
 })
 export class AgendarPage implements OnInit, OnDestroy {
   cargarPasajeros: Pasajero[];
+  isLoading = false;
   private pasajerosSub: Subscription;
 
   constructor(private viajesService: ViajesService, private loadingCtrl: LoadingController) { }
@@ -18,6 +19,13 @@ export class AgendarPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.pasajerosSub = this.viajesService.pasajeros.subscribe(pasajeros => {
       this.cargarPasajeros = pasajeros;
+    });
+  }
+
+  ionViewWillEnter() {
+    this.isLoading = true;
+    this.viajesService.fetchPasajeros().subscribe(() => {
+      this.isLoading = false;
     });
   }
 

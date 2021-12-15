@@ -3,8 +3,27 @@ import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { Pasajero } from './pasajero.model';
 import { Viaje } from './viaje.model';
-import { take, map, tap, delay } from 'rxjs/operators';
+import { take, map, tap, delay, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+
+interface DatosViaje {
+  autoImg: string;
+  costo: number;
+  horaSalida: string;
+  idUsuario: string;
+  lugarViaje: string;
+  modeloVehiculo: string;
+  nombreConductor: string;
+  patenteVehiculo: string;
+}
+
+interface DatosPasajero {
+  idUsuario: string;
+  lugarViaje: string;
+  metodoPago: string;
+  nombre: string;
+  pasajeroImg: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -87,73 +106,185 @@ export class ViajesService {
 
   constructor(private authService: AuthService, private http: HttpClient) {}
 
+  fetchViajes() {
+    return this.http
+      .get<{ [key: string]: DatosViaje }>(
+        'https://proyecto-semestral-03-default-rtdb.firebaseio.com/viajes-disponibles.json'
+      )
+      .pipe(
+        map((resData) => {
+          const viajes = [];
+          for (const key in resData) {
+            if (resData.hasOwnProperty(key)) {
+              viajes.push(
+                new Viaje(
+                  key,
+                  resData[key].costo,
+                  resData[key].lugarViaje,
+                  new Date(resData[key].horaSalida),
+                  resData[key].nombreConductor,
+                  resData[key].patenteVehiculo,
+                  resData[key].modeloVehiculo,
+                  resData[key].autoImg,
+                  resData[key].idUsuario
+                )
+              );
+            }
+          }
+          return viajes;
+          // return [];
+        }),
+        tap((viajes) => {
+          this._viajes.next(viajes);
+        })
+      );
+  }
+
+  fetchPasajeros() {
+    return this.http
+      .get<{ [key: string]: DatosPasajero }>(
+        'https://proyecto-semestral-03-default-rtdb.firebaseio.com/pasajeros-disponibles.json'
+      )
+      .pipe(
+        map((resData) => {
+          const pasajeros = [];
+          for (const key in resData) {
+            if (resData.hasOwnProperty(key)) {
+              pasajeros.push(
+                new Pasajero(
+                  key,
+                  resData[key].nombre,
+                  resData[key].lugarViaje,
+                  resData[key].pasajeroImg,
+                  resData[key].metodoPago
+                )
+              );
+            }
+          }
+          return pasajeros;
+        }),
+        tap((pasajeros) => {
+          this._pasajeros.next(pasajeros);
+        })
+      );
+  }
+
   getViaje(id: string) {
-    return this.viajes.pipe(
-      take(1),
-      map((viajes) => ({ ...viajes.find((v) => v.id === id) }))
-    );
+    return this.http
+      .get<DatosViaje>(
+        `https://proyecto-semestral-03-default-rtdb.firebaseio.com/viajes-disponibles/${id}.json`
+      )
+      .pipe(
+        map(
+          (viajeData) =>
+            new Viaje(
+              id,
+              viajeData.costo,
+              viajeData.lugarViaje,
+              new Date(viajeData.horaSalida),
+              viajeData.nombreConductor,
+              viajeData.patenteVehiculo,
+              viajeData.modeloVehiculo,
+              viajeData.autoImg,
+              viajeData.idUsuario
+            )
+        )
+      );
   }
 
   getPasajero(id: string) {
-    return this.pasajeros.pipe(
-      take(1),
-      map((pasajeros) => ({ ...pasajeros.find((p) => p.idUsuario === id) }))
-    );
+    return this.http
+      .get<DatosPasajero>(
+        `https://proyecto-semestral-03-default-rtdb.firebaseio.com/pasajeros-disponibles/${id}.json`
+      )
+      .pipe(
+        map(
+          (pasajeroData) =>
+            new Pasajero(
+              id,
+              pasajeroData.nombre,
+              pasajeroData.lugarViaje,
+              pasajeroData.pasajeroImg,
+              pasajeroData.metodoPago
+            )
+        )
+      );
   }
 
   crearViaje(lugarViaje: string, costo: number, horaSalida: Date) {
+    let idGenerada: string;
     const newViaje = new Viaje(
       Math.random().toString(),
       costo,
       lugarViaje,
       horaSalida,
-      this.authService.userId,
       'Javier Vivanco',
       'GK-SB-78',
       'City Car',
-      '/assets/icon/auto_mapa.jpg'
+      '/assets/icon/auto_mapa.jpg',
+      this.authService.userId
     );
     return this.http
-      .post(
+      .post<{ name: string }>(
         'https://proyecto-semestral-03-default-rtdb.firebaseio.com/viajes-disponibles.json',
         { ...newViaje, id: null }
       )
-      .pipe(tap(resData => {
-        console.log(resData);
-      }));
+      .pipe(
+        switchMap((resData) => {
+          idGenerada = resData.name;
+          return this.viajes;
+        }),
+        take(1),
+        tap((viajes) => {
+          newViaje.id = idGenerada;
+          this._viajes.next(viajes.concat(newViaje));
+        })
+      );
     // return this.viajes.pipe(
     //   take(1),
     //   delay(1000),
-    //   tap((viajes) => {
-    //     this._viajes.next(viajes.concat(newViaje));
+    //
+    // );
+  }
+
+  crearPasajero(lugar: string, metodoPago: string) {
+    const newPasajero = new Pasajero(
+      'xyz',
+      'Marcelo Gonzalez',
+      lugar,
+      '/assets/icon/hombre2.jpeg',
+      metodoPago
+    );
+    return this.http
+      .post<{ name: string }>(
+        'https://proyecto-semestral-03-default-rtdb.firebaseio.com/pasajeros-disponibles.json',
+        { ...newPasajero, id: null }
+      )
+      .pipe(
+        tap((resData) => {
+          console.log(resData);
+        })
+      );
+    // return this.pasajeros.pipe(
+    //   take(1),
+    //   delay(1000),
+    //   tap((pasajeros) => {
+    //     this._pasajeros.next(pasajeros.concat(newPasajero));
     //   })
     // );
   }
 
-  crearPasajero(metodoPago: string) {
-    const newPasajero = new Pasajero(
-      'xyz',
-      'Marcelo Gonzalez',
-      'Calera',
-      '/assets/icon/hombre2.jpeg',
-      metodoPago
-    );
-    return this.pasajeros.pipe(
-      take(1),
-      delay(1000),
-      tap((pasajeros) => {
-        this._pasajeros.next(pasajeros.concat(newPasajero));
-      })
-    );
-  }
-
   cancelarViaje(userId: string) {
-    return this.pasajeros.pipe(
-      take(1),
-      delay(1000),
-      tap((pasajeros) => {
-        this._pasajeros.next(pasajeros.filter((p) => p.idUsuario !== userId));
-      })
-    );
+    return this.http
+      .delete(
+        `https://proyecto-semestral-03-default-rtdb.firebaseio.com/pasajeros-disponibles/${userId}.json`
+      )
+      .pipe(
+        switchMap(() => this.pasajeros),
+        take(1),
+        tap((pasajeros) => {
+          this._pasajeros.next(pasajeros.filter((p) => p.idUsuario !== userId));
+        })
+      );
   }
 }

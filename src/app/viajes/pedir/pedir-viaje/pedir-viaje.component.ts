@@ -24,10 +24,10 @@ export class PedirViajeComponent implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      // lugar: new FormControl(null, {
-      //   updateOn: 'blur',
-      //   validators: [Validators.required]
-      // }),
+      lugar: new FormControl(null, {
+        updateOn: 'blur',
+        validators: [Validators.required]
+      }),
       metodoPago: new FormControl(null, {
         updateOn: 'blur',
         validators: [Validators.required],
@@ -48,6 +48,7 @@ export class PedirViajeComponent implements OnInit {
     }).then(loadingEl => {
       loadingEl.present();
       this.viajesService.crearPasajero(
+        this.form.value.lugar,
         this.form.value.metodoPago
       ).subscribe(() => {
         loadingEl.dismiss();
