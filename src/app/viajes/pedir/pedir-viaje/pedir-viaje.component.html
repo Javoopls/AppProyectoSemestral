@@ -22,8 +22,8 @@
               <app-location-picker (ubicacionPick)="ubicacionPicked($event)"></app-location-picker>
               <ion-item>
                 <ion-label position="floating">Selecciona Método Pago</ion-label>
-                <ion-select [ngModel]="'Débito'" name="metodoPago" formControlName="metodoPago">
-                  <ion-select-option value="Débito">Débito</ion-select-option>
+                <ion-select [ngModel]="'Efectivo'" name="metodoPago" formControlName="metodoPago">
+                  <ion-select-option value="Efectivo">Efectivo</ion-select-option>
                   <ion-select-option value="Crédito">Crédito</ion-select-option>
                   <ion-select-option value="Transferencia">Transferencia</ion-select-option>
                 </ion-select>

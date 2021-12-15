@@ -21,7 +21,7 @@
           <mat-card>
             <mat-card-header>
               <div mat-card-avatar class="avatar-auto"></div>
-              <mat-card-title> {{cargarViajes[0].lugarViaje}} </mat-card-title>
+              <mat-card-title> {{cargarViajes[0].lugarViaje.direccion}} </mat-card-title>
               <mat-card-subtitle>Costo por persona: {{cargarViajes[0].costo | currency}} </mat-card-subtitle>
               <mat-card-subtitle>Hora de Salida {{cargarViajes[0].horaSalida | date: "HH:mm"}} </mat-card-subtitle>
             </mat-card-header>
@@ -38,7 +38,7 @@
               <div mat-card-avatar class="avatar-auto"></div>
             </ion-thumbnail>
             <ion-label>
-              <mat-card-title> {{viaje.lugarViaje}} </mat-card-title>
+              <mat-card-title> {{viaje.lugarViaje.direccion}} </mat-card-title>
               <mat-card-subtitle>Costo por persona: {{viaje.costo| currency}} </mat-card-subtitle>
               <mat-card-subtitle>Hora de Salida {{viaje.horaSalida | date: "HH:mm"}} </mat-card-subtitle>
             </ion-label>

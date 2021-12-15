@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
+import { Ubicacion } from '../../pedir/ubicacion.model';
 import { ViajesService } from '../../viajes.service';
 
 @Component({
@@ -36,6 +37,10 @@ export class CrearViajePage implements OnInit {
         validators: [Validators.required],
       }),
     });
+  }
+
+  ubicacionPicked(ubicacion: Ubicacion) {
+    this.form.patchValue({lugar: ubicacion});
   }
 
   crearViaje() {

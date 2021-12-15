@@ -150,33 +150,39 @@ export class ViajesService {
 
   crearViaje(lugarViaje: Ubicacion, costo: number, horaSalida: Date) {
     let idGenerada: string;
-    const newViaje = new Viaje(
-      Math.random().toString(),
-      costo,
-      lugarViaje,
-      horaSalida,
-      'Javier Vivanco',
-      'GK-SB-78',
-      'City Car',
-      '/assets/icon/auto_mapa.jpg',
-      this.authService.userId
+    let newViaje: Viaje;
+    return this.authService.userId.pipe(
+      take(1),
+      switchMap((userId) => {
+        if (!userId) {
+          throw new Error('No se ha encontrado el id de Usuario');
+        }
+        newViaje = new Viaje(
+          Math.random().toString(),
+          costo,
+          lugarViaje,
+          horaSalida,
+          'Javier Vivanco',
+          'GK-SB-78',
+          'City Car',
+          '/assets/icon/auto_mapa.jpg',
+          userId
+        );
+        return this.http.post<{ name: string }>(
+          'https://proyecto-semestral-03-default-rtdb.firebaseio.com/viajes-disponibles.json',
+          { ...newViaje, id: null }
+        );
+      }),
+      switchMap((resData) => {
+        idGenerada = resData.name;
+        return this.viajes;
+      }),
+      take(1),
+      tap((viajes) => {
+        newViaje.id = idGenerada;
+        this._viajes.next(viajes.concat(newViaje));
+      })
     );
-    return this.http
-      .post<{ name: string }>(
-        'https://proyecto-semestral-03-default-rtdb.firebaseio.com/viajes-disponibles.json',
-        { ...newViaje, id: null }
-      )
-      .pipe(
-        switchMap((resData) => {
-          idGenerada = resData.name;
-          return this.viajes;
-        }),
-        take(1),
-        tap((viajes) => {
-          newViaje.id = idGenerada;
-          this._viajes.next(viajes.concat(newViaje));
-        })
-      );
     // return this.viajes.pipe(
     //   take(1),
     //   delay(1000),
@@ -185,23 +191,37 @@ export class ViajesService {
   }
 
   crearPasajero(lugar: Ubicacion, metodoPago: string) {
-    const newPasajero = new Pasajero(
-      'xyz',
-      'Marcelo Gonzalez',
-      lugar,
-      '/assets/icon/hombre2.jpeg',
-      metodoPago
+    let idGenerada: string;
+    let newPasajero: Pasajero;
+    return this.authService.userId.pipe(
+      take(1),
+      switchMap(userId => {
+        if (!userId) {
+          throw new Error('No se ha encontrado el id de Usuario');
+        }
+        newPasajero = new Pasajero(
+          userId,
+          'Marcelo Gonzalez',
+          lugar,
+          '/assets/icon/hombre2.jpeg',
+          metodoPago
+        );
+        return this.http
+          .post<{ name: string }>(
+            'https://proyecto-semestral-03-default-rtdb.firebaseio.com/pasajeros-disponibles.json',
+            { ...newPasajero, id: null }
+          );
+      }),
+      switchMap(resData => {
+        idGenerada = resData.name;
+        return this.pasajeros;
+      }),
+      take(1),
+      tap(pasajeros => {
+        newPasajero.idUsuario = idGenerada;
+        this._pasajeros.next(pasajeros.concat(newPasajero));
+      })
     );
-    return this.http
-      .post<{ name: string }>(
-        'https://proyecto-semestral-03-default-rtdb.firebaseio.com/pasajeros-disponibles.json',
-        { ...newPasajero, id: null }
-      )
-      .pipe(
-        tap((resData) => {
-          console.log(resData);
-        })
-      );
     // return this.pasajeros.pipe(
     //   take(1),
     //   delay(1000),

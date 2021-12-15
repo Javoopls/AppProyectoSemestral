@@ -14,8 +14,8 @@
   <ion-grid *ngIf="!isLoading">
     <ion-row>
       <ion-col size-sm="6" offset-sm="3" class="ion-text-center">
-        <ion-img [src]="viaje.autoImg" class="ion-padding"></ion-img>
-        <h1> Lugar del Viaje: {{ viaje.lugarViaje }} </h1>
+        <ion-img role="button" (click)="mostrarMapa()" class="ubicacion-img" [src]="viaje.lugarViaje.imgMapa"></ion-img>
+        <h1> Lugar del Viaje: {{ viaje.lugarViaje.direccion }} </h1>
         <h2> Valor del Viaje: {{ viaje.costo | currency:'CLP' }} </h2>
         <h2> Hora de Salida: {{ viaje.horaSalida | date: "HH:mm"}} </h2>
         <h3> Nombre del Conductor: {{ viaje.nombreConductor }} </h3>

@@ -12,31 +12,28 @@
     <ion-grid>
       <ion-row>
         <ion-col size-sm="6" offset-sm="3" class="ion-padding">
-          <ion-card>
+          <ion-card class="ion-text-center">
             <ion-card-content>
-              <ion-list>
-                <ion-item>
-                  <ion-label position="floating">Lugar Viaje</ion-label>
-                  <ion-input type="text" formControlName="lugar"></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-label position="floating">Valor del Viaje por Persona</ion-label>
-                  <ion-input type="number" formControlName="costo"></ion-input>
-                </ion-item>
-                <ion-row *ngIf="!form.get('costo').valid && form.get('costo').touched">
-                  <ion-col>
-                    <p>Valor debe ser entre 500 y 2000</p>
-                  </ion-col>
-                </ion-row>
-                <ion-item>
-                  <ion-label position="floating">Hora de salida</ion-label>
-                  <ion-datetime displayFormat="HH:mm" min="08:00" max="23:15" formControlName="horaSalida"></ion-datetime>
-                </ion-item>
-                <ion-item>
-                  <ion-button color="primary" type="submit" expand="block" (click)="crearViaje()" [disabled]="!form.valid">Agendar Nuevo Viaje
-                  </ion-button>
-                </ion-item>
-              </ion-list>
+              <ion-card-header>
+                <ion-card-title class="titulo">Selecciona tu destino</ion-card-title>
+              </ion-card-header>
+              <app-location-picker (ubicacionPick)="ubicacionPicked($event)"></app-location-picker>
+              <ion-item>
+                <ion-label position="floating">Valor del Viaje por Persona</ion-label>
+                <ion-input type="number" formControlName="costo"></ion-input>
+              </ion-item>
+              <ion-row *ngIf="!form.get('costo').valid && form.get('costo').touched">
+                <ion-col>
+                  <p>Valor debe ser entre 500 y 2000</p>
+                </ion-col>
+              </ion-row>
+              <ion-item>
+                <ion-label position="floating">Hora de salida</ion-label>
+                <ion-datetime displayFormat="HH:mm" min="08:00" max="23:15" formControlName="horaSalida"></ion-datetime>
+              </ion-item>
+              <ion-button color="primary" type="submit" expand="block" (click)="crearViaje()" [disabled]="!form.valid">
+                Agendar Nuevo Viaje
+              </ion-button>
             </ion-card-content>
           </ion-card>
         </ion-col>
