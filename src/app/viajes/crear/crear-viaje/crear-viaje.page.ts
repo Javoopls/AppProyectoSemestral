@@ -21,7 +21,6 @@ export class CrearViajePage implements OnInit {
   ngOnInit() {
     this.form = new FormGroup({
       lugar: new FormControl(null, {
-        updateOn: 'blur',
         validators: [Validators.required],
       }),
       costo: new FormControl(null, {

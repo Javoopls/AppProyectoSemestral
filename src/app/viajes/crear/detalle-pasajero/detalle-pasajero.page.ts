@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { MapModalComponent } from 'src/app/shared/map-modal/map-modal.component';
 import { Pasajero } from '../../pasajero.model';
 import { ViajesService } from '../../viajes.service';
 
@@ -20,7 +21,8 @@ export class DetallePasajeroPage implements OnInit, OnDestroy {
     private viajesService: ViajesService,
     private route: ActivatedRoute,
     private alertCtrl: AlertController,
-    private router: Router
+    private router: Router,
+    private modalCtrl: ModalController
   ) {}
 
   ngOnInit() {
@@ -57,6 +59,17 @@ export class DetallePasajeroPage implements OnInit, OnDestroy {
 
   tomarPasajero() {
     this.navCtrl.navigateBack('/viajes/tabs/crear');
+  }
+
+  mostrarMapa() {
+    this.modalCtrl.create({component: MapModalComponent, componentProps: {
+      center: {lat: this.pasajero.lugarViaje.lat, lng: this.pasajero.lugarViaje.lng },
+      selectable: false,
+      closeButtonText: 'Cerrar',
+      title: this.pasajero.lugarViaje.direccion
+    } }).then(modalEl => {
+      modalEl.present();
+    });
   }
 
   ngOnDestroy() {

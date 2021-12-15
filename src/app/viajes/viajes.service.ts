@@ -5,13 +5,14 @@ import { Pasajero } from './pasajero.model';
 import { Viaje } from './viaje.model';
 import { take, map, tap, delay, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { Ubicacion } from './pedir/ubicacion.model';
 
 interface DatosViaje {
   autoImg: string;
   costo: number;
   horaSalida: string;
   idUsuario: string;
-  lugarViaje: string;
+  lugarViaje: Ubicacion;
   modeloVehiculo: string;
   nombreConductor: string;
   patenteVehiculo: string;
@@ -19,7 +20,7 @@ interface DatosViaje {
 
 interface DatosPasajero {
   idUsuario: string;
-  lugarViaje: string;
+  lugarViaje: Ubicacion;
   metodoPago: string;
   nombre: string;
   pasajeroImg: string;
@@ -29,72 +30,8 @@ interface DatosPasajero {
   providedIn: 'root',
 })
 export class ViajesService {
-  private _viajes = new BehaviorSubject<Viaje[]>([
-    new Viaje(
-      'v1',
-      1300,
-      'Quillota',
-      new Date('2021-12-08T20:30'),
-      'Daniela Perez',
-      'XH-66-40',
-      'Coupé',
-      '/assets/icon/auto_mapa.jpg',
-      'abc'
-    ),
-    new Viaje(
-      'v2',
-      2000,
-      'San Felipe',
-      new Date('2021-12-08T12:40'),
-      'Jeanette Pailamilla',
-      'DT-RC-78',
-      'Sedán',
-      '/assets/icon/auto_mapa.jpg',
-      'abc'
-    ),
-    new Viaje(
-      'v3',
-      850,
-      'Villa Alemana',
-      new Date('2021-12-08T13:50'),
-      'Javier Vivanco',
-      'GK-SB-78',
-      'City Car',
-      '/assets/icon/auto_mapa.jpg',
-      'abc'
-    ),
-  ]);
-
-  private _pasajeros = new BehaviorSubject<Pasajero[]>([
-    new Pasajero(
-      'P1',
-      'Juan Escobar',
-      'Valparaíso',
-      '/assets/icon/hombre1.jpeg',
-      'crédito'
-    ),
-    new Pasajero(
-      'P2',
-      'Fernanda Astudillo',
-      'Miraflores',
-      '/assets/icon/mujer1.jpeg',
-      'efectivo'
-    ),
-    new Pasajero(
-      'P3',
-      'Marcelo Gonzalez',
-      'Quillota',
-      '/assets/icon/hombre2.jpeg',
-      'transferencia'
-    ),
-    new Pasajero(
-      'P4',
-      'Ximena Portillo',
-      'Quilpué',
-      '/assets/icon/mujer2.jpeg',
-      'crédito'
-    ),
-  ]);
+  private _viajes = new BehaviorSubject<Viaje[]>([]);
+  private _pasajeros = new BehaviorSubject<Pasajero[]>([]);
 
   get viajes() {
     return this._viajes.asObservable();
@@ -211,7 +148,7 @@ export class ViajesService {
       );
   }
 
-  crearViaje(lugarViaje: string, costo: number, horaSalida: Date) {
+  crearViaje(lugarViaje: Ubicacion, costo: number, horaSalida: Date) {
     let idGenerada: string;
     const newViaje = new Viaje(
       Math.random().toString(),
@@ -247,7 +184,7 @@ export class ViajesService {
     // );
   }
 
-  crearPasajero(lugar: string, metodoPago: string) {
+  crearPasajero(lugar: Ubicacion, metodoPago: string) {
     const newPasajero = new Pasajero(
       'xyz',
       'Marcelo Gonzalez',
@@ -287,4 +224,69 @@ export class ViajesService {
         })
       );
   }
+
+  //   new Viaje(
+  //     'v1',
+  //     1300,
+  //     'Quillota',
+  //     new Date('2021-12-08T20:30'),
+  //     'Daniela Perez',
+  //     'XH-66-40',
+  //     'Coupé',
+  //     '/assets/icon/auto_mapa.jpg',
+  //     'abc'
+  //   ),
+  //   new Viaje(
+  //     'v2',
+  //     2000,
+  //     'San Felipe',
+  //     new Date('2021-12-08T12:40'),
+  //     'Jeanette Pailamilla',
+  //     'DT-RC-78',
+  //     'Sedán',
+  //     '/assets/icon/auto_mapa.jpg',
+  //     'abc'
+  //   ),
+  //   new Viaje(
+  //     'v3',
+  //     850,
+  //     'Villa Alemana',
+  //     new Date('2021-12-08T13:50'),
+  //     'Javier Vivanco',
+  //     'GK-SB-78',
+  //     'City Car',
+  //     '/assets/icon/auto_mapa.jpg',
+  //     'abc'
+  //   ),
+  // ]);
+
+  //   new Pasajero(
+  //     'P1',
+  //     'Juan Escobar',
+  //     'Valparaíso',
+  //     '/assets/icon/hombre1.jpeg',
+  //     'crédito'
+  //   ),
+  //   new Pasajero(
+  //     'P2',
+  //     'Fernanda Astudillo',
+  //     'Miraflores',
+  //     '/assets/icon/mujer1.jpeg',
+  //     'efectivo'
+  //   ),
+  //   new Pasajero(
+  //     'P3',
+  //     'Marcelo Gonzalez',
+  //     'Quillota',
+  //     '/assets/icon/hombre2.jpeg',
+  //     'transferencia'
+  //   ),
+  //   new Pasajero(
+  //     'P4',
+  //     'Ximena Portillo',
+  //     'Quilpué',
+  //     '/assets/icon/mujer2.jpeg',
+  //     'crédito'
+  //   ),
+  // ]);
 }

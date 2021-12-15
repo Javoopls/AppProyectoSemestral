@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { Viaje } from '../../viaje.model';
 import { ViajesService } from '../../viajes.service';
+import { Ubicacion } from '../ubicacion.model';
 
 @Component({
   selector: 'app-pedir-viaje',
@@ -12,7 +13,6 @@ import { ViajesService } from '../../viajes.service';
 })
 export class PedirViajeComponent implements OnInit {
   @Input() viajeSeleccionado: Viaje;
-  // @ViewChild('f', {static: true}) form: NgForm;
   form: FormGroup;
 
   constructor(
@@ -25,7 +25,6 @@ export class PedirViajeComponent implements OnInit {
   ngOnInit() {
     this.form = new FormGroup({
       lugar: new FormControl(null, {
-        updateOn: 'blur',
         validators: [Validators.required]
       }),
       metodoPago: new FormControl(null, {
@@ -33,6 +32,10 @@ export class PedirViajeComponent implements OnInit {
         validators: [Validators.required],
       }),
     });
+  }
+
+  ubicacionPicked(ubicacion: Ubicacion) {
+    this.form.patchValue({lugar: ubicacion});
   }
 
   cerrar() {
