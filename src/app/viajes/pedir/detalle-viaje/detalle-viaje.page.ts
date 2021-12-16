@@ -85,11 +85,15 @@ export class DetalleViajePage implements OnInit, OnDestroy {
       });
   }
 
-  enviarCorreo() {
+  openEmailComposer() {
     const email = {
       to: this.correo,
       subject: 'Viaje Solicitado',
       body:
+        this.viaje.id +
+        ' ' +
+        this.viaje.idUsuario +
+        ' ' +
         this.viaje.lugarViaje +
         ' ' +
         this.viaje.costo +
@@ -101,15 +105,25 @@ export class DetalleViajePage implements OnInit, OnDestroy {
         this.viaje.patenteVehiculo,
     };
     this.emailComposer.open(email);
-    console.log(email);
   }
 
-  viajePedido(userId) {
-    this.viajesService.getViaje(userId);
-    this.enviarCorreo();
-    console.log(userId);
-    // this.viajesService.crearViaje(lugarViaje, costo, horaSalida);
-    this.navCtrl.navigateBack('/viajes/tabs/pedir');
+  viajePedido(id) {
+    this.viajesService.getViaje(id);
+    this.openEmailComposer();
+    this.alertCtrl
+              .create({
+                header: 'Solicitando viaje...',
+                message: 'Se ha enviado un correo con los datos de su viaje!',
+                buttons: [
+                  {
+                    text: 'Ok',
+                    handler: () => {
+                      this.router.navigate(['/viajes/tabs/pedir']);
+                    },
+                  },
+                ],
+              })
+              .then((alertEl) => alertEl.present());
   }
 
   ngOnDestroy() {

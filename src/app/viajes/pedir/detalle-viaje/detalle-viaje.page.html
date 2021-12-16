@@ -20,7 +20,7 @@
         <h2> Hora de Salida: {{ viaje.horaSalida | date: "HH:mm"}} </h2>
         <h3> Nombre del Conductor: {{ viaje.nombreConductor }} </h3>
         <h3> Patente: {{ viaje.patenteVehiculo }} </h3>
-        <ion-button color="primary" class="ion-margin" (click)="viajePedido(viaje.idUsuario)">Pedir Viaje!</ion-button>
+        <ion-button color="primary" class="ion-margin" (click)="viajePedido(viaje.id)">Pedir Viaje!</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -31,7 +31,7 @@
             </ion-item>
             <ion-button type="submit" color="primary" expand="block" [disabled]="!f.valid">
               {{ isLogin ? 'Iniciar Sesión' : 'Registro' }}</ion-button>
-            <ion-button type="button" expand="block" fill="clear" (click)="cambiarModo()">Restablecer Contraseña
+            <ion-button type="button" expand="block" fill="clear" (click)="restablecerPass()">Restablecer Contraseña
             </ion-button>
             <ion-button type="button" color="primary" fill="clear" expand="block" (click)="cambiarModo()">
               Cambiar a {{ isLogin ? 'Registrarse' : 'Iniciar Sesión' }}

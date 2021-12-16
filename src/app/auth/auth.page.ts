@@ -59,6 +59,10 @@ export class AuthPage implements OnInit {
       });
   }
 
+  restablecerPass(){
+    this.router.navigate(['/password']);
+  }
+
   cambiarModo() {
     this.isLogin = !this.isLogin;
   }

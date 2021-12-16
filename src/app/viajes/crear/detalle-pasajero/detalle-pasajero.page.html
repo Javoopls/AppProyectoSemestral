@@ -19,7 +19,7 @@
         <p> Lugar de Viaje: {{ pasajero.lugarViaje.direccion}} </p>
         <p> Método de Pago: {{ pasajero.metodoPago }} </p>
         <ion-img role="button" (click)="mostrarMapa()" class="ubicacion-img" [src]="pasajero.lugarViaje.imgMapa"></ion-img>
-        <ion-button color="primary" class="ion-margin" (click)="tomarPasajero()">Tomar Pasajero</ion-button>
+        <ion-button color="primary" class="ion-margin" (click)="tomarPasajero(pasajero.idUsuario)">Tomar Pasajero</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
