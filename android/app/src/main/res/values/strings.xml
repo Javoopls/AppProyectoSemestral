@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ProyectoAppMovil</string>
+    <string name="title_activity_main">ProyectoAppMovil</string>
+    <string name="package_name">com.duoc.proyectosemestral</string>
+    <string name="custom_url_scheme">com.duoc.proyectosemestral</string>
+</resources>
