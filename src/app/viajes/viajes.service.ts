@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { Pasajero } from './pasajero.model';
 import { Viaje } from './viaje.model';
-import { take, map, tap, delay, switchMap } from 'rxjs/operators';
+import { take, map, tap, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Ubicacion } from './pedir/ubicacion.model';
 
@@ -222,13 +222,6 @@ export class ViajesService {
         this._pasajeros.next(pasajeros.concat(newPasajero));
       })
     );
-    // return this.pasajeros.pipe(
-    //   take(1),
-    //   delay(1000),
-    //   tap((pasajeros) => {
-    //     this._pasajeros.next(pasajeros.concat(newPasajero));
-    //   })
-    // );
   }
 
   cancelarViaje(userId: string) {
