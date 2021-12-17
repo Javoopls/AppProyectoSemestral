@@ -183,11 +183,6 @@ export class ViajesService {
         this._viajes.next(viajes.concat(newViaje));
       })
     );
-    // return this.viajes.pipe(
-    //   take(1),
-    //   delay(1000),
-    //
-    // );
   }
 
   crearPasajero(lugar: Ubicacion, metodoPago: string) {
